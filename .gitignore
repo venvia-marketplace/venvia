@@ -1,0 +1,35 @@
+# VenVia — exclusions (additional review required before any import)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.csr
+id_rsa*
+id_ed25519*
+config.local.php
+/private/
+# Runtime / sensitive data
+/vendor/
+/node_modules/
+/cache/
+/logs/
+/tmp/
+/temp/
+/backups/
+*.sql
+*.sql.gz
+*.sqlite
+*.db
+*.bak
+*.zip
+*.tar
+*.tar.gz
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
