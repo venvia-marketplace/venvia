@@ -1,0 +1,4 @@
+/* 0.2.0 BE/FE preparatorio — Design System VenVia 1.0.0 */
+body>.app-layout>.main-shell>.topbar>.brand-panel{width:160px;min-width:160px}
+body>.app-layout>.main-shell>.topbar>.brand-panel img{width:100%}
+@media(max-width:760px){body>.app-layout>.main-shell>.topbar>.brand-panel{width:120px;min-width:120px}.sidebar{display:none}}

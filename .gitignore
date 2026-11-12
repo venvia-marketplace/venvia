@@ -33,3 +33,17 @@ config.local.php
 .vscode/
 .DS_Store
 Thumbs.db
+
+# VenVia - SQL versionati
+!database/
+!database/schema.sql
+!database/migrations/
+!database/migrations/*.sql
+
+# Escludere dump e backup dei database
+*.dump
+*.sql.gz
+*.sql.bak
+*.sqlite
+*.sqlite3
+*.db

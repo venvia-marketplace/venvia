@@ -1,0 +1,15 @@
+# MODELLO DA CONFRONTARE CON CONFIGURAZIONE ATTUALE, NON INSTALLARE SENZA REVISIONE.
+# L'IP e il percorso SSL vanno verificati rispetto a Ubuntu DEV.
+server { listen 192.168.9.220:80; server_name app.venvia.it; return 301 https://app.venvia.it$request_uri; }
+server {
+    listen 192.168.9.220:443 ssl;
+    server_name app.venvia.it;
+    ssl_certificate /etc/nginx/ssl/venvia-app/fullchain.pem;  # ESEMPIO, verificare percorso reale
+    ssl_certificate_key /etc/nginx/ssl/venvia-app/privkey.pem; # ESEMPIO, verificare percorso reale
+    root /var/www/venvia/public;
+    index app.php;
+    location / { try_files $uri /app.php?$query_string; }
+    location = /app.php { include fastcgi_params; fastcgi_param SCRIPT_FILENAME $document_root/app.php; fastcgi_pass unix:/run/php/php8.5-fpm.sock; }
+    location ~ \.php$ { return 404; }
+    location ~ /\. { deny all; }
+}

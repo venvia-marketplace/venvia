@@ -1,0 +1,22 @@
+/* VenVia Design System 1.0 — common visual variables (prototype baseline) */
+:root {
+  --vv-brand-primary: #292552;
+  --vv-brand-accent: #d3e51b;
+  --vv-bg: #f6f7fa;
+  --vv-surface: #ffffff;
+  --vv-surface-muted: #f7f8fb;
+  --vv-text: #1c2133;
+  --vv-text-muted: #737988;
+  --vv-border: #e7e9ef;
+  --vv-selection: #f1f0f9;
+}
+[data-theme="dark"] {
+  --vv-bg: #151525;
+  --vv-surface: #212139;
+  --vv-surface-muted: #2a2a43;
+  --vv-text: #f0f0fb;
+  --vv-text-muted: #b8b7c9;
+  --vv-border: #36364e;
+  --vv-selection: #343052;
+}
+/* Visual tokens are not a substitute for contrast testing, ARIA or auth. */
