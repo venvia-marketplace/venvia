@@ -1,0 +1,44 @@
+{
+  "name": "VenVia Shared Design Tokens",
+  "version": "1.0.0",
+  "status": "baseline for integration; UI values not all independently approved",
+  "brand": {
+    "primary": "#292552",
+    "accent": "#d3e51b",
+    "note": "Logo pixel values must never be recomputed or recolored based on tokens."
+  },
+  "light": {
+    "background": "#f6f7fa",
+    "surface": "#ffffff",
+    "surfaceMuted": "#f7f8fb",
+    "text": "#1c2133",
+    "textMuted": "#737988",
+    "border": "#e7e9ef",
+    "selection": "#f1f0f9"
+  },
+  "dark": {
+    "background": "#151525",
+    "surface": "#212139",
+    "surfaceMuted": "#2a2a43",
+    "text": "#f0f0fb",
+    "textMuted": "#b8b7c9",
+    "border": "#36364e",
+    "selection": "#343052"
+  },
+  "layout": {
+    "sidebarDesktopPx": 259,
+    "topbarDesktopPx": 70,
+    "breakpointMobilePx": 740
+  },
+  "semantics": {
+    "success": "use for verified success only",
+    "warning": "use for warnings",
+    "error": "use for confirmed error",
+    "unknown": "default until live telemetry verifies states"
+  },
+  "notes": [
+    "One consistent design system across deployment modes.",
+    "Shared visual language does not merge technical and operational permissions.",
+    "Token values are extracted from the UI prototype and should be reviewed for accessibility before production."
+  ]
+}

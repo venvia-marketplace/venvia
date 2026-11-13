@@ -1,0 +1,20 @@
+{
+  "package": "VenVia-0.1.4-LAB",
+  "parent": "VenVia-0.1.3-LAB",
+  "change": "ui-only",
+  "design_system": "1.0.0",
+  "files_modified": [
+    "src/Core.php",
+    "public/index.php",
+    "public/assets/style.css",
+    "public/assets/theme.js",
+    "public/assets/venvia-logo.png",
+    "public/assets/venvia-icon.png"
+  ],
+  "files_added": [
+    "public/assets/favicon.ico",
+    "public/assets/venvia-tokens.css",
+    "docs/design-tokens.json",
+    "docs/UI_UX_0.1.4.md"
+  ]
+}
