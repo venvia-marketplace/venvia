@@ -1,16 +1,14 @@
 # VenVia 0.4 — Manuale tecnico operativo
 
+[English version](../en/technical-operations-manual-0.4.md) · [Presentazione del progetto](../../README.md)
+
 Trascrizione testuale del manuale del 15 novembre 2026, con correzione della politica Master Recovery Key secondo le decisioni approvate.
 
-
-
-VenVia 0.4
-Manuale tecnico-operativo
 Baseline di progettazione • 15 novembre 2026
 
 Vendi e compra dove vuoi e come vuoi.
 
-01 / Finalità e stato
+## 01 / Finalità e stato
 VenVia è un ecosistema commerciale multicanale e multipiattaforma, non un progetto di infrastruttura. La
 versione 0.4 recupera i requisiti funzionali della 0.2 e sostituisce l’architettura di installazione e accesso ai
 dati. Le funzionalità già approvate non devono regredire salvo decisione esplicita.
@@ -34,13 +32,7 @@ Realizzare VenVia Desk configurabile in modalità Server, con installazione graf
 autonomo, Core avviabile e prima configurazione sicura. Windows, macOS e Linux sono le piattaforme
 obiettivo; iOS e iPadOS non rientrano nel perimetro Desk.
 
-
-
-
-
-
-
-02 / Architettura e autonomia locale
+## 02 / Architettura e autonomia locale
 
 Un Core, due ambienti
 VenVia Core: motore PHP orientato agli oggetti, API, modello dati, autorizzazioni, transazioni e gestione dei
@@ -69,13 +61,7 @@ negozio. IP LAN stabile consigliato; ricerca automatica con fallback manuale. DN
 mantenuto, opzionale e disattivato di default. Il server resta un punto di disponibilità locale: le casse
 dispongono anche di una modalità di emergenza.
 
-
-
-
-
-
-
-03 / Installazione e prima configurazione
+## 03 / Installazione e prima configurazione
 
 Pacchetti ufficiali
 Desk Windows: installer EXE. Desk macOS: pacchetto grafico firmato/notarizzato secondo i requisiti
@@ -102,13 +88,7 @@ l’associazione. Accedere con credenziali e MFA secondo le policy. Configurare 
 Consentire riparazione, aggiornamento e promozione a Server tramite procedura guidata. Nessun terminale
 per le operazioni ordinarie.
 
-
-
-
-
-
-
-04 / Identità, sicurezza e accesso
+## 04 / Identità, sicurezza e accesso
 
 Ruoli e responsabilità
 Amministratore Tecnico unico, separato dall’Amministratore gestionale: setup, manutenzione, migrazioni,
@@ -135,13 +115,7 @@ macchina isolata non può ricevere revoche: non promettere esclusività assoluta
 rete. Il server precedente va posto in quarantena e può rientrare solo come client o mediante nuova
 procedura autorizzata.
 
-
-
-
-
-
-
-05 / Funzioni gestionali e multicanalità
+## 05 / Funzioni gestionali e multicanalità
 
 Perimetro da preservare dalla 0.2
 VenVia Studio: anagrafica unica, codici/EAN, descrizioni, immagini, video, categorie, varianti, prezzi.
@@ -167,13 +141,7 @@ cliente potrà consultare disponibilità per negozio (modello IKEA), acquistare 
 Nessun uso di plugin terzi non autorizzati; eventuali eccezioni approvate per pagamenti, corrieri e altri
 componenti espliciti.
 
-
-
-
-
-
-
-06 / API, sincronizzazione e giacenze
+## 06 / API, sincronizzazione e giacenze
 
 API-first
 Interfacce documentate e versionate per catalogo, giacenze, ordini, clienti, documenti e moduli.
@@ -199,13 +167,7 @@ Durante disconnessioni, non promettere stock in tempo reale: proposta di quote o
 vendite sui dati scaduti, da approvare. Le prenotazioni e la riconciliazione devono evitare doppie vendite per
 quanto consentito dalla connettività.
 
-
-
-
-
-
-
-07 / Control Center e disaster recovery
+## 07 / Control Center e disaster recovery
 
 Funzioni tecniche
 Control Center gestisce setup, configurazioni, salute servizi, backup, aggiornamenti, staging, migrazioni,
@@ -233,13 +195,7 @@ controllate e preservazione dei dati reali. Mai sostituire automaticamente il DB
 Entrambe le operazioni reversibili: rollback automatico ove sicuro e manuale autorizzato, con verifica di
 consistenza.
 
-
-
-
-
-
-
-08 / GitHub, distribuzione e migrazione
+## 08 / GitHub, distribuzione e migrazione
 
 Sviluppo open source
 GitHub come piattaforma ufficiale per codice, issue, test, release e pacchetti. GitHub App sotto controllo
@@ -266,13 +222,7 @@ Portabilità bidirezionale locale/Web da mantenere nei limiti dei servizi e dei 
 pubblici e segreti specifici dell’ambiente vanno gestiti o riemessi in sicurezza; non clonare
 indiscriminatamente identità o credenziali.
 
-
-
-
-
-
-
-09 / Primo sviluppo: Desk Server
+## 09 / Primo sviluppo: Desk Server
 
 P0 — prototipo installabile
 1. Definire contratto Core/Desk e struttura repository. 2. Preparare pipeline GitHub per le tre piattaforme. 3.
@@ -281,24 +231,19 @@ distruttiva. 4. Implementare setup grafico, identità tecnica, MFA/recovery e Co
 Aggiungere API di salute e associazione Client. 6. Generare release di laboratorio, non produzione.
 
 Criteri di accettazione
-   Installazione pulita e riavvio riusciti su Windows, macOS e Linux supportati, senza VM o WordPress.
-   Control Center raggiungibile, database privato, amministratore unico e recovery verificato.
-   Client associato tramite nome/IP e rilevamento automatico; rifiuto di server non autorizzato.
-   Operazioni LAN senza Internet; benchmark di latenza e carico con più client (soglie da definire prima del
+- Installazione pulita e riavvio riusciti su Windows, macOS e Linux supportati, senza VM o WordPress.
+- Control Center raggiungibile, database privato, amministratore unico e recovery verificato.
+- Client associato tramite nome/IP e rilevamento automatico; rifiuto di server non autorizzato.
+- Operazioni LAN senza Internet; benchmark di latenza e carico con più client (soglie da definire prima del
     collaudo).
-   Backup esterno e ripristino su seconda macchina; rifiuto del vecchio server e recupero coda cassa.
-   Aggiornamento in staging e rollback verificati; pacchetti ufficiali riproducibili e autenticabili.
+- Backup esterno e ripristino su seconda macchina; rifiuto del vecchio server e recupero coda cassa.
+- Aggiornamento in staging e rollback verificati; pacchetti ufficiali riproducibili e autenticabili.
 
 Decisioni e verifiche ancora aperte
 Scelta stack GUI, web server e packaging; versioni OS/CPU; discovery e fiducia crittografica; recovery
 offline/MFA; protocollo di sincronizzazione e inventario; compatibilità fiscale; licenze; obiettivi prestazionali e
 di recupero. Nessun test è dichiarato superato. Il manuale si basa sulle decisioni recuperate dalle
 conversazioni 0.2–0.4, non su un confronto integrale con il file originale della 0.2.
-
-
-
-
-
 
 ## Precisazioni sulla sicurezza
 MFA TOTP (Google Authenticator) per amministratori tecnici e gestionali; altri operatori OTP email a ogni accesso per default, intervallo configurabile globalmente. Modalità offline da validare. Recovery Key ordinaria monouso; Master Recovery Key permanente, esportata una sola volta in TXT con conferma di custodia, destinata anche alla decifratura dei backup. Perdita definitiva della Master rende irrecuperabili i backup cifrati. Nessuna copia aggiuntiva obbligatoria. Non memorizzare in chiaro o nei log.
