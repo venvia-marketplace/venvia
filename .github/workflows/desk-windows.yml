@@ -1,4 +1,4 @@
-name: VenVia Desk Windows preview
+name: VenVia Desk Windows
 on:
   push:
     branches: ['desk/0.4']
@@ -13,14 +13,19 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+      - name: Compile desktop application
+        shell: pwsh
+        run: |
+          $csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+          & $csc /nologo /target:winexe /out:desk/installer/VenViaDesk.exe /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:Microsoft.VisualBasic.dll /r:System.ServiceProcess.dll desk/installer/Desk.cs
+          if ($LASTEXITCODE -ne 0) { throw 'Desktop compilation failed' }
       - name: Install Inno Setup
         shell: pwsh
         run: choco install innosetup --yes --no-progress
-      - name: Compile preview
+      - name: Compile setup
         shell: pwsh
         run: |
           $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-          if (!(Test-Path $iscc)) { throw 'Inno Setup compiler not found' }
           & $iscc desk/installer/VenViaDesk.iss
           if ($LASTEXITCODE -ne 0) { throw 'Compilation failed' }
           $exe = Get-ChildItem desk/installer/output/*.exe
@@ -28,6 +33,6 @@ jobs:
           Get-FileHash $exe.FullName -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } | Set-Content desk/installer/output/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: VenVia-Desk-Windows-preview
+          name: VenVia-Desk-Windows
           path: desk/installer/output/
           if-no-files-found: error
