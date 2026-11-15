@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::{fs, net::{TcpListener, SocketAddr}, path::PathBuf};
 use sysinfo::{System, Disks};
 use tauri::Manager;
+mod server;
 
 #[derive(Serialize)]
 struct Report { os: String, arch: String, cpu: String, logical_cpus: usize, ram_mib: u64, disks: Vec<Disk>, ports: Vec<Port>, processes: Vec<String> }
@@ -54,8 +55,14 @@ async fn diagnostics() -> Result<Report, String> {
         Report { os: System::long_os_version().unwrap_or_else(|| "Non rilevato".into()), arch: std::env::consts::ARCH.into(), cpu: s.cpus().first().map(|c| c.brand().to_string()).unwrap_or_default(), logical_cpus: s.cpus().len(), ram_mib: s.total_memory()/1048576, disks, ports, processes }
     }).await.map_err(|e| e.to_string())
 }
+#[tauri::command]
+async fn server_plan(app: tauri::AppHandle) -> Result<server::ServerPlan, String> {
+    let mode = load_settings(app.clone())?.mode;
+    let root = app.path().app_local_data_dir().map_err(|e| e.to_string())?;
+    tauri::async_runtime::spawn_blocking(move || server::plan(&root, &mode)).await.map_err(|e| e.to_string())
+}
 fn main() {
-    tauri::Builder::default().invoke_handler(tauri::generate_handler![diagnostics,load_settings,save_settings]).run(tauri::generate_context!()).expect("Avvio VenVia Desk non riuscito");
+    tauri::Builder::default().invoke_handler(tauri::generate_handler![diagnostics,load_settings,save_settings,server_plan]).run(tauri::generate_context!()).expect("Avvio VenVia Desk non riuscito");
 }
 #[cfg(test)]
 mod tests { use super::*; #[test] fn modes() { assert!(valid_mode("server")); assert!(valid_mode("client")); assert!(!valid_mode("")); assert!(!valid_mode("../server")); } }
