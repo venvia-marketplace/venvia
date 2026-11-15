@@ -35,7 +35,16 @@ jobs:
         run: |
           cargo install cargo-audit --locked
           if ($LASTEXITCODE -ne 0) { throw 'Audit tool installation failed' }
-          cargo audit --deny warnings
+          # Keep an unfiltered audit in the logs; only the two documented
+          # Linux-stack warnings may be excepted after a Windows graph check.
+          cargo audit
+          if ($LASTEXITCODE -ne 0) { throw 'Dependency vulnerability or audit failure' }
+          $graph = cargo tree --locked --target x86_64-pc-windows-msvc --prefix none --edges normal,build,dev
+          if ($LASTEXITCODE -ne 0) { throw 'Windows dependency graph unavailable' }
+          $graph | Set-Content windows-dependencies.txt
+          if ($graph -match '^(glib|proc-macro-error) v') { throw 'Reviewed Linux dependencies present in Windows graph; security review required' }
+          Write-Host 'Windows-only exceptions: RUSTSEC-2024-0370 and RUSTSEC-2024-0429; both crates absent from Windows dependency graph. Linux remains blocked pending remediation.'
+          cargo audit --deny warnings --ignore RUSTSEC-2024-0370 --ignore RUSTSEC-2024-0429
           if ($LASTEXITCODE -ne 0) { throw 'Dependency audit failed' }
       - name: Check Rust code
         shell: pwsh
@@ -82,6 +91,7 @@ jobs:
           Copy-Item $setup[0].FullName dist/
           Copy-Item ../README.md dist/INSTALLATION.md
           Copy-Item Cargo.lock dist/Cargo.lock
+          Copy-Item windows-dependencies.txt dist/windows-dependencies.txt
           cargo tree --locked | Set-Content dist/dependencies.txt
           if ($LASTEXITCODE -ne 0) { throw 'Dependency inventory failed' }
           Get-ChildItem dist/*.exe | Get-FileHash -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } | Set-Content dist/SHA256SUMS.txt
