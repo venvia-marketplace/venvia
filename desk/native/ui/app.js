@@ -12,3 +12,12 @@ save.addEventListener("click",async()=>{const m=document.querySelector("input[na
 scan.addEventListener("click",refresh);
 invoke("load_settings").then(s=>{for(const el of document.querySelectorAll("input[name=mode]"))el.checked=el.value===s.mode;}).catch(e=>{status.textContent="Configurazione: "+String(e);});
 refresh();
+const planButton = document.getElementById("plan"), serverReport = document.getElementById("server-report");
+planButton.addEventListener("click", async () => {
+ planButton.disabled = true; serverReport.textContent = "Verifica in corso...";
+ try {
+  const p = await invoke("server_plan");
+  serverReport.textContent = p.checks.map(c => "[" + c.state.toUpperCase() + "] " + c.name + ": " + c.detail).join("\n") + "\n\nInstallazione non ancora abilitata.";
+ } catch(e) { serverReport.textContent = "Errore: " + String(e); }
+ finally { planButton.disabled = false; }
+});
