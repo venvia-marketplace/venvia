@@ -1,4 +1,5 @@
-name: VenVia Desk Rust Windows security validation
+name: VenVia Desk | Windows x64 | Build e validazione sicurezza
+run-name: "Desk Windows — ${{ github.event.head_commit.message || github.ref_name }}"
 on:
   push:
     branches: ['desk/0.4']
@@ -95,6 +96,10 @@ jobs:
           }
           $detections = @(Get-MpThreatDetection | Where-Object { $_.InitialDetectionTime -ge $start })
           if ($detections.Count -gt 0) { throw 'Defender reported a detection during validation' }
+      - name: Generate validation summary
+        shell: pwsh
+        run: |
+          @('## VenVia Desk - validazione Windows', 'Commit: '+$env:GITHUB_SHA, 'Audit, Clippy, test, build e scansione completati prima di questo step.', 'Artefatto non firmato; non costituisce release approvata.') | Add-Content -Path $env:GITHUB_STEP_SUMMARY
       - name: Collect release
         shell: pwsh
         run: |
